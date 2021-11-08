@@ -2,11 +2,11 @@
 # To use this, enable Packit-as-a-service in GitHub: https://packit.dev/docs/packit-as-a-service/
 # See https://packit.dev/docs/configuration/ for the format of this file
 
-specfile_path: cockpit-starter-kit.spec
+specfile_path: cockpit-crc.spec
 actions:
   post-upstream-clone:
   post-upstream-clone:
-    - make cockpit-starter-kit.spec
+    - make cockpit-crc.spec
     # replace Source1 manually, as create-archive: can't handle multiple tarballs
     - make node-cache
     - sh -c 'sed -i "/^Source1:/ s/https:.*/$(ls *-node*.tar.xz)/" cockpit-*.spec'

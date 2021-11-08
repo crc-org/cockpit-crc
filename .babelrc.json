@@ -7,7 +7,8 @@
                 "safari": "10.3",
                 "edge": "16",
                 "opera": "44"
-            }
+            },
+            "useBuiltIns": "usage"
         }],
         "@babel/preset-react"
     ]

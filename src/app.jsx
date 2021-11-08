@@ -19,31 +19,70 @@
 
 import cockpit from 'cockpit';
 import React from 'react';
-import { Alert, Card, CardTitle, CardBody } from '@patternfly/react-core';
+import { Alert, Button, Card, CardTitle, CardBody } from '@patternfly/react-core';
+import * as client from './client.js';
 
 const _ = cockpit.gettext;
 
 export class Application extends React.Component {
-    constructor() {
-        super();
-        this.state = { hostname: _("Unknown") };
+    constructor(props) {
+        super(props);
+        this.state = {
+            CrcStatus: _("Unknown")
+        };
 
-        cockpit.file('/etc/hostname').watch(content => {
-            this.setState({ hostname: content.trim() });
-        });
+        this.updateStatus = this.updateStatus.bind(this);
+        this.startInstance = this.startInstance.bind(this);
+        this.stopInstance = this.stopInstance.bind(this);
+        this.deleteInstance = this.deleteInstance.bind(this);
+
+        this.updateStatus();
+    }
+
+    startInstance() {
+        client.startInstance();
+    }
+
+    stopInstance() {
+        client.stopInstance();
+    }
+
+    deleteInstance() {
+        client.deleteInstance();
+    }
+
+    updateStatus() {
+        client.getStatus()
+                .then(reply => {
+                    console.log(reply.CrcStatus);
+                    this.setState({ CrcStatus: reply.CrcStatus });
+                })
+                .catch(ex => {
+                    console.log(_("Failed to get status"));
+                });
     }
 
     render() {
         return (
-            <Card>
-                <CardTitle>Starter Kit</CardTitle>
-                <CardBody>
-                    <Alert
-                        variant="info"
-                        title={ cockpit.format(_("Running on $0"), this.state.hostname) }
-                    />
-                </CardBody>
-            </Card>
+            <fragment>
+                <Card>
+                    <CardTitle>CodeReady Containers</CardTitle>
+                    <CardBody>
+                        <Alert
+                            variant="info"
+                            title={cockpit.format(_("Status: $0"), this.state.CrcStatus)}
+                        />
+                    </CardBody>
+                </Card>
+
+                <Button onClick={this.startIntance}
+                    variant="primary">Start</Button>{' '}
+                <Button onClick={this.stopInstance}
+                    variant="secondary">Stop</Button>{' '}
+                <Button onClick={this.deleteInstance}
+                    variant="danger">Delete</Button>
+
+            </fragment>
         );
     }
 }

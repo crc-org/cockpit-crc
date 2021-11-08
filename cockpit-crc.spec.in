@@ -1,11 +1,11 @@
-Name: cockpit-starter-kit
+Name: cockpit-crc
 Version: %{VERSION}
 Release: 1%{?dist}
-Summary: Cockpit Starter Kit Example Module
+Summary: CRC plugin for Cockpit
 License: LGPLv2+
 
-Source0: https://github.com/cockpit-project/starter-kit/releases/download/%{version}/%{name}-%{version}.tar.xz
-Source1: https://github.com/cockpit-project/starter-kit/releases/download/%{version}/%{name}-node-%{version}.tar.xz
+Source0: https://github.com/gbraad/cockpit-crc/releases/download/%{version}/%{name}-%{version}.tar.xz
+Source1: https://github.com/gbraad/cockpit-crc/releases/download/%{version}/%{name}-node-%{version}.tar.xz
 BuildArch: noarch
 BuildRequires:  nodejs
 BuildRequires: make
@@ -16,7 +16,7 @@ Requires: cockpit-system
 %define debug_package %{nil}
 
 %description
-Cockpit Starter Kit Example Module
+CRC Plugin for Cockpit
 
 %prep
 %setup -q -n %{name}

@@ -14,17 +14,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1\n"
 
-#: src/index.html:20
-msgid "Cockpit Starter Kit"
-msgstr "Cockpit Bausatz"
-
 #: src/app.jsx:42
 msgid "Running on $0"
 msgstr "Läuft auf $0"
-
-#: src/manifest.json:0
-msgid "Starter Kit"
-msgstr "Bausatz"
 
 #: src/app.jsx:29
 msgid "Unknown"
