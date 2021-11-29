@@ -32,6 +32,10 @@ import { Application } from './app.jsx';
 import "./lib/patternfly/patternfly-4-overrides.scss";
 import './app.scss';
 
+Notification.requestPermission().then(function(result) {
+    console.log(result);
+});
+
 document.addEventListener("DOMContentLoaded", function () {
     ReactDOM.render(React.createElement(Application, {}), document.getElementById('app'));
 });

@@ -38,7 +38,13 @@ export class Application extends React.Component {
 
     startInstance() {
         console.log("Start clicked");
-        client.startInstance();
+        client.startInstance()
+                .then((result) => {
+                    const toast = new Notification('CRC', { body: result, icon: "" });
+                })
+                .catch((error) => {
+                    const toast = new Notification('CRC', { body: error, icon: "" });
+                });
     }
 
     stopInstance() {
