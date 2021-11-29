@@ -19,8 +19,10 @@
 
 import cockpit from 'cockpit';
 import React from 'react';
-import { Alert, Button, Card, CardTitle, CardBody } from '@patternfly/react-core';
+import { Alert, Card, CardTitle, CardBody } from '@patternfly/react-core';
 import * as client from './client.js';
+import Actions from './CRC/Actions.jsx';
+import Settings from './CRC/Settings.jsx';
 
 const _ = cockpit.gettext;
 
@@ -31,24 +33,27 @@ export class Application extends React.Component {
             CrcStatus: _("Unknown")
         };
 
-        this.updateStatus = this.updateStatus.bind(this);
-        this.startInstance = this.startInstance.bind(this);
-        this.stopInstance = this.stopInstance.bind(this);
-        this.deleteInstance = this.deleteInstance.bind(this);
-
         this.updateStatus();
     }
 
     startInstance() {
+        console.log("Start clicked");
         client.startInstance();
     }
 
     stopInstance() {
+        console.log("Stop clicked");
         client.stopInstance();
     }
 
     deleteInstance() {
+        console.log("Delete clicked");
         client.deleteInstance();
+    }
+
+    settingsValueChanged(caller, key, value) {
+        // perform validation
+        caller.updateValue(key, value);
     }
 
     updateStatus() {
@@ -64,7 +69,7 @@ export class Application extends React.Component {
 
     render() {
         return (
-            <fragment>
+            <div>
                 <Card>
                     <CardTitle>CodeReady Containers</CardTitle>
                     <CardBody>
@@ -75,14 +80,13 @@ export class Application extends React.Component {
                     </CardBody>
                 </Card>
 
-                <Button onClick={this.startIntance}
-                    variant="primary">Start</Button>{' '}
-                <Button onClick={this.stopInstance}
-                    variant="secondary">Stop</Button>{' '}
-                <Button onClick={this.deleteInstance}
-                    variant="danger">Delete</Button>
+                <Actions onStartClicked={this.startInstance}
+                        onStopClicked={this.stopInstance}
+                        onDeleteClicked={this.deleteInstance} />
 
-            </fragment>
+                <Settings onValueChanged={this.settingsValueChanged} />
+
+            </div>
         );
     }
 }
