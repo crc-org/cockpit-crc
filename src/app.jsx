@@ -37,8 +37,11 @@ export class Application extends React.Component {
         this.stopInstance = this.stopInstance.bind(this);
         this.deleteInstance = this.deleteInstance.bind(this);
         this.settingsValueChanged = this.settingsValueChanged.bind(this);
+        this.updateStatus = this.updateStatus.bind(this);
+    }
 
-        this.updateStatus();
+    componentDidMount() {
+        setInterval(this.updateStatus, 1000);
     }
 
     startInstance() {
@@ -91,7 +94,10 @@ export class Application extends React.Component {
     }
 
     showToast(message) {
-        const toast = new Notification('CodeReady Containers', { body: message, icon: "" });
+        const toast = new Notification('CodeReady Containers', {
+            body: message,
+            icon: ""
+        });
     }
 
     render() {
