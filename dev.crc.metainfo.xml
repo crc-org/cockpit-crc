@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="addon">
+  <id>dev.crc</id>
+  <metadata_license>Apache</metadata_license>
+  <name>CRC</name>
+  <summary>CodeReady Containers</summary>
+  <description>
+    <p>
+      CodeReady Containers cockpit module.
+    </p>
+  </description>
+  <extends>org.cockpit_project.cockpit</extends>
+  <launchable type="cockpit-manifest">crc</launchable>
+</component>
