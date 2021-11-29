@@ -33,6 +33,11 @@ export class Application extends React.Component {
             CrcStatus: _("Unknown")
         };
 
+        this.startInstance = this.startInstance.bind(this);
+        this.stopInstance = this.stopInstance.bind(this);
+        this.deleteInstance = this.deleteInstance.bind(this);
+        this.settingsValueChanged = this.settingsValueChanged.bind(this);
+
         this.updateStatus();
     }
 
@@ -40,21 +45,33 @@ export class Application extends React.Component {
         console.log("Start clicked");
         client.startInstance()
                 .then((result) => {
-                    const toast = new Notification('CRC', { body: result, icon: "" });
+                    this.showToast(result);
                 })
                 .catch((error) => {
-                    const toast = new Notification('CRC', { body: error, icon: "" });
+                    this.showToast(error);
                 });
     }
 
     stopInstance() {
         console.log("Stop clicked");
-        client.stopInstance();
+        client.stopInstance()
+                .then((result) => {
+                    this.showToast(result);
+                })
+                .catch((error) => {
+                    this.showToast(error);
+                });
     }
 
     deleteInstance() {
         console.log("Delete clicked");
-        client.deleteInstance();
+        client.deleteInstance()
+                .then((result) => {
+                    this.showToast(result);
+                })
+                .catch((error) => {
+                    this.showToast(error);
+                });
     }
 
     settingsValueChanged(caller, key, value) {
@@ -71,6 +88,10 @@ export class Application extends React.Component {
                 .catch(ex => {
                     console.log(_("Failed to get status"));
                 });
+    }
+
+    showToast(message) {
+        const toast = new Notification('CodeReady Containers', { body: message, icon: "" });
     }
 
     render() {
