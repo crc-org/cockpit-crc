@@ -18,9 +18,9 @@ class Settings extends React.Component {
         this.state = {
             cpu: 2,
             memory : 9,
-            disksize : 30,
+            "disk-size" : 30,
             pullsecret: "",
-            consentTelemetry: false,
+            "consent-telemetry": false,
         };
 
         this.handlePullsecretClick = this.handlePullsecretClick.bind(this);
@@ -56,7 +56,7 @@ class Settings extends React.Component {
                     <FormGroup fieldId='settings-disksize' label="Disk size">
                         <TextInput id='settings-disksize'
                             className="disksize"
-                            value={this.state.disksize}
+                            value={this.state["disk-size"]}
                             onChange={value => this.props.onValueChanged(this, 'disk-size', value)} />
                     </FormGroup>
                     <FormGroup fieldId='settings-pullsecret' label="Pullsecret">
@@ -70,7 +70,7 @@ class Settings extends React.Component {
                     <FormGroup fieldId='settings-pullsecret' label="Pullsecret">
                         <Checkbox id='settings-consentTelemetry'
                             className="consentTelemetry"
-                            value={this.state.consentTelemetry}
+                            value={this.state["consent-telemetry"]}
                             onChange={value => this.props.onValueChanged(this, 'consent-telemetry', value)}
                             label="Report telemetry to Red Hat" />
                     </FormGroup>
