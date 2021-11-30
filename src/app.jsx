@@ -51,7 +51,7 @@ export class Application extends React.Component {
     }
 
     startInstance() {
-        this.log("Start clicked");
+        this.log("→ Start clicked");
         client.startInstance()
                 .then((result) => {
                     this.showToast(result);
@@ -64,7 +64,7 @@ export class Application extends React.Component {
     }
 
     stopInstance() {
-        this.log("Stop clicked");
+        this.log("→ Stop clicked");
         client.stopInstance()
                 .then((result) => {
                     this.showToast(result);
@@ -77,7 +77,7 @@ export class Application extends React.Component {
     }
 
     deleteInstance() {
-        this.log("Delete clicked");
+        this.log("→ Delete clicked");
         client.deleteInstance()
                 .then((result) => {
                     this.showToast(result);

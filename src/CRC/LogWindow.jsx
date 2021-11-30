@@ -15,7 +15,9 @@ class LogWindow extends React.Component {
 
     log(value) {
         const oldstate = this.state.log;
-        const newState = { log: oldstate + value + "\r\n" };
+        // prevent double newlines
+        const newline = value.endsWith("\n") ? "" : "\r\n";
+        const newState = { log: oldstate + value + newline };
         this.setState(newState);
     }
 
