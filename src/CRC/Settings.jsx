@@ -9,7 +9,7 @@ import {
     SelectOption, SelectGroup,
     TextInput, Tabs, Tab, TabTitleText,
     ToggleGroup, ToggleGroupItem,
-    Checkbox
+    ActionGroup, Checkbox
 } from '@patternfly/react-core';
 
 class Settings extends React.Component {
@@ -40,7 +40,7 @@ class Settings extends React.Component {
     render() {
         return (
             <div>
-                <Form>
+                <Form isHorizontal isWidthLimited>
                     <FormGroup fieldId='settings-cpu' label="CPU">
                         <TextInput id='settings-cpu'
                             className="cpu"
@@ -67,13 +67,18 @@ class Settings extends React.Component {
                             onChange={value => this.props.onValueChanged(this, 'pull-secret', value)} />
                         <Button onClick={this.handlePullsecretClick} variant="primary">Change</Button>
                     </FormGroup>
-                    <FormGroup fieldId='settings-pullsecret' label="Pullsecret">
+                    <FormGroup fieldId='settings-pullsecret' label="Telemetry">
                         <Checkbox id='settings-consentTelemetry'
                             className="consentTelemetry"
                             value={this.state["consent-telemetry"]}
                             onChange={value => this.props.onValueChanged(this, 'consent-telemetry', value)}
-                            label="Report telemetry to Red Hat" />
+                            label="Report telemetry to Red Hat"
+                            description="Consent to allow basic information about the system and cluster to be collected for development and debugging purposes" />
                     </FormGroup>
+                    <ActionGroup>
+                        <Button variant="primary">Save</Button>
+                        <Button variant="link">Reset</Button>
+                    </ActionGroup>
                 </Form>
             </div>
         );
