@@ -124,13 +124,15 @@ export class Application extends React.Component {
                     </CardBody>
                 </Card>
 
-                <LogWindow ref={this.logWindow} />
+                <div style={{ marginLeft : "22px" }}>
+                    <LogWindow ref={this.logWindow} />
 
-                <Actions onStartClicked={this.startInstance}
-                        onStopClicked={this.stopInstance}
-                        onDeleteClicked={this.deleteInstance} />
+                    <Actions onStartClicked={this.startInstance}
+                            onStopClicked={this.stopInstance}
+                            onDeleteClicked={this.deleteInstance} />
 
-                <Settings onValueChanged={this.settingsValueChanged} />
+                    <Settings onValueChanged={this.settingsValueChanged} />
+                </div>
 
             </div>
         );

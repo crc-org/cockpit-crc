@@ -14,7 +14,7 @@ class Actions extends React.Component {
     render() {
         return (
             <div>
-                {' '}<Button onClick={this.props.onStartClicked}
+                <Button onClick={this.props.onStartClicked}
                     variant="primary">Start</Button>{' '}
                 <Button onClick={this.props.onStopClicked}
                     variant="secondary">Stop</Button>{' '}
