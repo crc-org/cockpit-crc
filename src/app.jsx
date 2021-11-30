@@ -55,8 +55,9 @@ export class Application extends React.Component {
                     this.showToast(result);
                 })
                 .catch((error) => {
-                    this.showToast(error);
-                    this.log(error);
+                    const msg = error.message;
+                    this.showToast(msg);
+                    this.log("E: " + msg);
                 });
     }
 
@@ -67,8 +68,9 @@ export class Application extends React.Component {
                     this.showToast(result);
                 })
                 .catch((error) => {
-                    this.showToast(error);
-                    this.log(error);
+                    const msg = error.message;
+                    this.showToast(msg);
+                    this.log("E: " + msg);
                 });
     }
 
@@ -79,8 +81,9 @@ export class Application extends React.Component {
                     this.showToast(result);
                 })
                 .catch((error) => {
-                    this.showToast(error);
-                    this.log(error);
+                    const msg = error.message;
+                    this.showToast(msg);
+                    this.log("E: " + msg);
                 });
     }
 

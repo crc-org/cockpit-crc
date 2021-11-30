@@ -9,6 +9,7 @@ import {
     SelectOption, SelectGroup,
     TextInput, Tabs, Tab, TabTitleText,
     ToggleGroup, ToggleGroupItem,
+    Checkbox
 } from '@patternfly/react-core';
 
 class Settings extends React.Component {
@@ -18,13 +19,22 @@ class Settings extends React.Component {
             cpu: 2,
             memory : 9,
             disksize : 30,
+            pullsecret: "",
             consentTelemetry: false,
         };
+
+        this.handlePullsecretClick = this.handlePullsecretClick.bind(this);
+        this.pullsecretInput = React.createRef();
     }
 
     updateValue(key, value) {
         const newState = { [key]: value };
         this.setState(newState);
+    }
+
+    handlePullsecretClick() {
+        const value = this.pullsecretInput.current.value;
+        this.props.onValueChanged(this, 'pullsecretContent', value);
     }
 
     render() {
@@ -47,12 +57,24 @@ class Settings extends React.Component {
                         <TextInput id='settings-disksize'
                             className="disksize"
                             value={this.state.disksize}
-                            onChange={value => this.props.onValueChanged(this, 'disksize', value)} />
+                            onChange={value => this.props.onValueChanged(this, 'disk-size', value)} />
+                    </FormGroup>
+                    <FormGroup fieldId='settings-pullsecret' label="Pullsecret">
+                        <TextInput id='settings-pullsecret'
+                            className="pullsecret"
+                            value={this.state.pullsecret}
+                            ref={this.pullsecretInput}
+                            onChange={value => this.props.onValueChanged(this, 'pull-secret', value)} />
+                        <Button onClick={this.handlePullsecretClick} variant="primary">Change</Button>
+                    </FormGroup>
+                    <FormGroup fieldId='settings-pullsecret' label="Pullsecret">
+                        <Checkbox id='settings-consentTelemetry'
+                            className="consentTelemetry"
+                            value={this.state.consentTelemetry}
+                            onChange={value => this.props.onValueChanged(this, 'consent-telemetry', value)}
+                            label="Report telemetry to Red Hat" />
                     </FormGroup>
                 </Form>
-
-                <li>Pull secret <button id="pullsecret">Change</button></li>
-                <li><input id="consentTelemetry" type="checkbox" /> Report telemetry to Red Hat</li>
             </div>
         );
     }
