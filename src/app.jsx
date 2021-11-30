@@ -120,7 +120,7 @@ export class Application extends React.Component {
     showToast(message) {
         const toast = new Notification('CodeReady Containers', {
             body: message,
-            icon: ""
+            icon: "./ocp-logo.png"
         });
     }
 
