@@ -40,6 +40,8 @@ export class Application extends React.Component {
         this.deleteInstance = this.deleteInstance.bind(this);
         this.settingsValueChanged = this.settingsValueChanged.bind(this);
         this.updateStatus = this.updateStatus.bind(this);
+        this.settingsSave = this.settingsSave.bind(this);
+        this.settingsReset = this.settingsReset.bind(this);
 
         this.logWindow = React.createRef();
     }
@@ -92,6 +94,14 @@ export class Application extends React.Component {
         caller.updateValue(key, value);
     }
 
+    settingsSave() {
+        this.log("Saving settings");
+    }
+
+    settingsReset() {
+        this.log("Reset settings");
+    }
+
     log(message) {
         this.logWindow.current.log(message);
     }
@@ -134,7 +144,9 @@ export class Application extends React.Component {
                             onStopClicked={this.stopInstance}
                             onDeleteClicked={this.deleteInstance} />
 
-                    <Settings onValueChanged={this.settingsValueChanged} />
+                    <Settings onValueChanged={this.settingsValueChanged}
+                            onSaveClicked={this.settingsSave}
+                            onResetClicked={this.settingsReset} />
                 </div>
 
             </div>

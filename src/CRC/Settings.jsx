@@ -23,7 +23,7 @@ class Settings extends React.Component {
             "consent-telemetry": false,
         };
 
-        this.handlePullsecretClick = this.handlePullsecretClick.bind(this);
+        this.pullsecretChangeClicked = this.pullsecretChangeClicked.bind(this);
         this.pullsecretInput = React.createRef();
     }
 
@@ -32,7 +32,7 @@ class Settings extends React.Component {
         this.setState(newState);
     }
 
-    handlePullsecretClick() {
+    pullsecretChangeClicked() {
         const value = this.pullsecretInput.current.value;
         this.props.onValueChanged(this, 'pullsecretContent', value);
     }
@@ -65,7 +65,7 @@ class Settings extends React.Component {
                             value={this.state.pullsecret}
                             ref={this.pullsecretInput}
                             onChange={value => this.props.onValueChanged(this, 'pull-secret', value)} />
-                        <Button onClick={this.handlePullsecretClick} variant="primary">Change</Button>
+                        <Button onClick={this.pullsecretChangeClicked} variant="primary">Change</Button>
                     </FormGroup>
                     <FormGroup fieldId='settings-pullsecret' label="Telemetry">
                         <Checkbox id='settings-consentTelemetry'
@@ -76,8 +76,8 @@ class Settings extends React.Component {
                             description="Consent to allow basic information about the system and cluster to be collected for development and debugging purposes" />
                     </FormGroup>
                     <ActionGroup>
-                        <Button variant="primary">Save</Button>
-                        <Button variant="link">Reset</Button>
+                        <Button variant="primary" onClick={this.props.onSaveClicked}>Save</Button>
+                        <Button variant="link" onClick={this.props.onResetClicked}>Reset</Button>
                     </ActionGroup>
                 </Form>
             </div>
@@ -86,7 +86,9 @@ class Settings extends React.Component {
 }
 
 Button.propTypes = {
-    onValueChanged: PropTypes.func
+    onValueChanged: PropTypes.func,
+    onSaveClicked: PropTypes.func,
+    onResetClicked: PropTypes.func
 };
 
 export default Settings;
