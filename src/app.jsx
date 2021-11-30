@@ -23,6 +23,7 @@ import { Alert, Card, CardTitle, CardBody } from '@patternfly/react-core';
 import * as client from './client.js';
 import Actions from './CRC/Actions.jsx';
 import Settings from './CRC/Settings.jsx';
+import LogWindow from './CRC/LogWindow.jsx';
 
 const _ = cockpit.gettext;
 
@@ -30,7 +31,8 @@ export class Application extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            CrcStatus: _("Unknown")
+            CrcStatus: _("Unknown"),
+            log: ""
         };
 
         this.startInstance = this.startInstance.bind(this);
@@ -38,6 +40,8 @@ export class Application extends React.Component {
         this.deleteInstance = this.deleteInstance.bind(this);
         this.settingsValueChanged = this.settingsValueChanged.bind(this);
         this.updateStatus = this.updateStatus.bind(this);
+
+        this.logWindow = React.createRef();
     }
 
     componentDidMount() {
@@ -45,41 +49,48 @@ export class Application extends React.Component {
     }
 
     startInstance() {
-        console.log("Start clicked");
+        this.log("Start clicked");
         client.startInstance()
                 .then((result) => {
                     this.showToast(result);
                 })
                 .catch((error) => {
                     this.showToast(error);
+                    this.log(error);
                 });
     }
 
     stopInstance() {
-        console.log("Stop clicked");
+        this.log("Stop clicked");
         client.stopInstance()
                 .then((result) => {
                     this.showToast(result);
                 })
                 .catch((error) => {
                     this.showToast(error);
+                    this.log(error);
                 });
     }
 
     deleteInstance() {
-        console.log("Delete clicked");
+        this.log("Delete clicked");
         client.deleteInstance()
                 .then((result) => {
                     this.showToast(result);
                 })
                 .catch((error) => {
                     this.showToast(error);
+                    this.log(error);
                 });
     }
 
     settingsValueChanged(caller, key, value) {
         // perform validation
         caller.updateValue(key, value);
+    }
+
+    log(message) {
+        this.logWindow.current.log(message);
     }
 
     updateStatus() {
@@ -112,6 +123,8 @@ export class Application extends React.Component {
                         />
                     </CardBody>
                 </Card>
+
+                <LogWindow ref={this.logWindow} />
 
                 <Actions onStartClicked={this.startInstance}
                         onStopClicked={this.stopInstance}
