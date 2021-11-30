@@ -1,8 +1,4 @@
-import React, { useState } from 'react';
-import {
-    Button,
-} from '@patternfly/react-core';
-
+import React from 'react';
 class LogWindow extends React.Component {
     constructor(props) {
         super(props);

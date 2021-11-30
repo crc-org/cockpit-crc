@@ -1,14 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
     Button,
-    Form, FormGroup, FormFieldGroup, FormFieldGroupHeader,
-    FormSelect, FormSelectOption,
-    Grid,
-    Modal, Select, SelectVariant,
-    SelectOption, SelectGroup,
-    TextInput, Tabs, Tab, TabTitleText,
-    ToggleGroup, ToggleGroupItem,
+    Form, FormGroup,
+    TextInput,
     ActionGroup, Checkbox
 } from '@patternfly/react-core';
 
