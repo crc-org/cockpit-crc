@@ -43,10 +43,13 @@ export class Application extends React.Component {
         this.settingsSave = this.settingsSave.bind(this);
         this.settingsReset = this.settingsReset.bind(this);
 
+        this.actions = React.createRef();
+        this.settings = React.createRef();
         this.logWindow = React.createRef();
     }
 
     componentDidMount() {
+        this.settingsLoad();
         setInterval(this.updateStatus, 1000);
     }
 
@@ -94,12 +97,28 @@ export class Application extends React.Component {
         caller.updateValue(key, value);
     }
 
-    settingsSave() {
-        this.log("Saving settings");
+    settingsSave(data) {
+        console.log(data);
+        this.log("Save settings");
     }
 
     settingsReset() {
         this.log("Reset settings");
+        this.settingsLoad();
+    }
+
+    settingsLoad() {
+        this.log("Load settings");
+        client.getConfig()
+                .then(reply => {
+                    console.log(reply.Configs);
+                    this.settings.current.updateValues(reply.Configs);
+                });
+        /*
+                .catch(ex => {
+                    console.log(_("Failed to get config"));
+                });
+                */
     }
 
     log(message) {
@@ -140,11 +159,13 @@ export class Application extends React.Component {
                 <div style={{ marginLeft : "22px" }}>
                     <LogWindow ref={this.logWindow} />
 
-                    <Actions onStartClicked={this.startInstance}
+                    <Actions ref={this.actions}
+                            onStartClicked={this.startInstance}
                             onStopClicked={this.stopInstance}
                             onDeleteClicked={this.deleteInstance} />
 
-                    <Settings onValueChanged={this.settingsValueChanged}
+                    <Settings ref={this.settings}
+                            onValueChanged={this.settingsValueChanged}
                             onSaveClicked={this.settingsSave}
                             onResetClicked={this.settingsReset} />
                 </div>

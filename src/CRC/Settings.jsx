@@ -10,20 +10,25 @@ import {
 class Settings extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            cpu: 2,
-            memory : 9,
-            "disk-size" : 30,
-            pullsecret: "",
-            "consent-telemetry": false,
-        };
+        this.state = {};
 
         this.pullsecretChangeClicked = this.pullsecretChangeClicked.bind(this);
+        this.settingsSaveClicked = this.settingsSaveClicked.bind(this);
+        this.settingsResetClicked = this.settingsResetClicked.bind(this);
+        this.updateValue = this.updateValue.bind(this);
+
         this.pullsecretInput = React.createRef();
     }
 
+    updateValues(values) {
+        const self = this; // make sure 'self' references to this
+        Object.entries(values).forEach(function(value) {
+            self.updateValue(value[0], value[1]);
+        });
+    }
+
     updateValue(key, value) {
-        const newState = { [key]: value };
+        const newState = { ["" + key]: value };
         this.setState(newState);
     }
 
@@ -32,15 +37,23 @@ class Settings extends React.Component {
         this.props.onValueChanged(this, 'pullsecretContent', value);
     }
 
+    settingsSaveClicked() {
+        this.props.onSaveClicked(this.state);
+    }
+
+    settingsResetClicked() {
+        this.props.onResetClicked();
+    }
+
     render() {
         return (
             <div>
                 <Form isHorizontal isWidthLimited>
                     <FormGroup fieldId='settings-cpu' label="CPU">
                         <TextInput id='settings-cpu'
-                            className="cpu"
-                            value={this.state.cpu}
-                            onChange={value => this.props.onValueChanged(this, 'cpu', value)} />
+                            className="cpus"
+                            value={this.state.cpus}
+                            onChange={value => this.props.onValueChanged(this, 'cpus', value)} />
                     </FormGroup>
                     <FormGroup fieldId='settings-memory' label="Memory">
                         <TextInput id='settings-memory'
@@ -71,8 +84,8 @@ class Settings extends React.Component {
                             description="Consent to allow basic information about the system and cluster to be collected for development and debugging purposes" />
                     </FormGroup>
                     <ActionGroup>
-                        <Button variant="primary" onClick={this.props.onSaveClicked}>Save</Button>
-                        <Button variant="link" onClick={this.props.onResetClicked}>Reset</Button>
+                        <Button variant="primary" onClick={this.settingsSaveClicked}>Save</Button>
+                        <Button variant="link" onClick={this.settingsResetClicked}>Reset</Button>
                     </ActionGroup>
                 </Form>
             </div>
