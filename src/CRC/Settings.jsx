@@ -67,15 +67,7 @@ class Settings extends React.Component {
                             value={this.state["disk-size"]}
                             onChange={value => this.props.onValueChanged(this, 'disk-size', value)} />
                     </FormGroup>
-                    <FormGroup fieldId='settings-pullsecret' label="Pullsecret">
-                        <TextInput id='settings-pullsecret'
-                            className="pullsecret"
-                            value={this.state.pullsecret}
-                            ref={this.pullsecretInput}
-                            onChange={value => this.props.onValueChanged(this, 'pull-secret', value)} />
-                        <Button onClick={this.pullsecretChangeClicked} variant="primary">Change</Button>
-                    </FormGroup>
-                    <FormGroup fieldId='settings-pullsecret' label="Telemetry">
+                    <FormGroup fieldId='settings-telemetry' label="Telemetry">
                         <Checkbox id='settings-consentTelemetry'
                             className="consentTelemetry"
                             value={this.state["consent-telemetry"]}
@@ -87,6 +79,14 @@ class Settings extends React.Component {
                         <Button variant="primary" onClick={this.settingsSaveClicked}>Save</Button>
                         <Button variant="link" onClick={this.settingsResetClicked}>Reset</Button>
                     </ActionGroup>
+                    <FormGroup fieldId='settings-pullsecret' label="Pullsecret">
+                        <TextInput id='settings-pullsecret'
+                            className="pullsecret"
+                            value={this.state.pullsecret}
+                            ref={this.pullsecretInput}
+                            onChange={value => this.props.onValueChanged(this, 'pull-secret', value)} />
+                        <Button onClick={this.pullsecretChangeClicked} variant="primary">Change</Button>
+                    </FormGroup>
                 </Form>
             </div>
         );
