@@ -1,6 +1,4 @@
 CRC Plugin for Cockpit
 ======================
 
-WIP
-
-![Test](./test.png)
+![Demo screenshot](./img/demo.png)
