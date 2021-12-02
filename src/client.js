@@ -6,7 +6,7 @@ export function getAddress() {
     return CRC_ADDRESS;
 }
 
-function crcCall(name, method, args, body) {
+function crcCall(name, method, body, args) {
     const options = {
         method: method,
         path: name,
@@ -45,6 +45,22 @@ export function deleteInstance() {
     return new Promise((resolve, reject) => {
         crcCall("/api/delete", "GET")
                 .then(resolve)
+                .catch(reject);
+    });
+}
+
+export function getConfig() {
+    return new Promise((resolve, reject) => {
+        crcCall("/api/config", "GET")
+                .then(reply => resolve(JSON.parse(reply)))
+                .catch(reject);
+    });
+}
+
+export function setConfig(data) {
+    return new Promise((resolve, reject) => {
+        crcCall("/api/config", "POST", JSON.stringify(data))
+                .then(reply => resolve(JSON.parse(reply)))
                 .catch(reject);
     });
 }

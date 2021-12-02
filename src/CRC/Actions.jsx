@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
     Button,
@@ -14,7 +14,7 @@ class Actions extends React.Component {
     render() {
         return (
             <div>
-                {' '}<Button onClick={this.props.onStartClicked}
+                <Button onClick={this.props.onStartClicked}
                     variant="primary">Start</Button>{' '}
                 <Button onClick={this.props.onStopClicked}
                     variant="secondary">Stop</Button>{' '}

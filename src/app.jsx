@@ -23,6 +23,7 @@ import { Alert, Card, CardTitle, CardBody } from '@patternfly/react-core';
 import * as client from './client.js';
 import Actions from './CRC/Actions.jsx';
 import Settings from './CRC/Settings.jsx';
+import LogWindow from './CRC/LogWindow.jsx';
 
 const _ = cockpit.gettext;
 
@@ -30,7 +31,8 @@ export class Application extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            CrcStatus: _("Unknown")
+            CrcStatus: _("Unknown"),
+            log: ""
         };
 
         this.startInstance = this.startInstance.bind(this);
@@ -38,48 +40,96 @@ export class Application extends React.Component {
         this.deleteInstance = this.deleteInstance.bind(this);
         this.settingsValueChanged = this.settingsValueChanged.bind(this);
         this.updateStatus = this.updateStatus.bind(this);
+        this.settingsSave = this.settingsSave.bind(this);
+        this.settingsReset = this.settingsReset.bind(this);
+
+        this.actions = React.createRef();
+        this.settings = React.createRef();
+        this.logWindow = React.createRef();
     }
 
     componentDidMount() {
+        this.settingsLoad();
         setInterval(this.updateStatus, 1000);
     }
 
     startInstance() {
-        console.log("Start clicked");
+        this.log("→ Start clicked");
         client.startInstance()
                 .then((result) => {
                     this.showToast(result);
                 })
                 .catch((error) => {
-                    this.showToast(error);
+                    const msg = error.message;
+                    this.showToast(msg);
+                    this.log("E: " + msg);
                 });
     }
 
     stopInstance() {
-        console.log("Stop clicked");
+        this.log("→ Stop clicked");
         client.stopInstance()
                 .then((result) => {
                     this.showToast(result);
                 })
                 .catch((error) => {
-                    this.showToast(error);
+                    const msg = error.message;
+                    this.showToast(msg);
+                    this.log("E: " + msg);
                 });
     }
 
     deleteInstance() {
-        console.log("Delete clicked");
+        this.log("→ Delete clicked");
         client.deleteInstance()
                 .then((result) => {
                     this.showToast(result);
                 })
                 .catch((error) => {
-                    this.showToast(error);
+                    const msg = error.message;
+                    this.showToast(msg);
+                    this.log("E: " + msg);
                 });
     }
 
     settingsValueChanged(caller, key, value) {
         // perform validation
         caller.updateValue(key, value);
+    }
+
+    settingsSave(data) {
+        this.log("Save settings");
+        const values = Object.entries(data).filter(values => values[1] != "");
+        client.setConfig({ properties: Object.fromEntries(values) })
+                .then(reply => {
+                    console.log(reply);
+                })
+                .catch(ex => {
+                    console.log(_("Failed to set config"));
+                    this.log("E: " + ex.message);
+                });
+    }
+
+    settingsReset() {
+        this.log("Reset settings");
+        this.settingsLoad();
+    }
+
+    settingsLoad() {
+        this.log("Load settings");
+        client.getConfig()
+                .then(reply => {
+                    console.log(reply.Configs);
+                    this.settings.current.updateValues(reply.Configs);
+                })
+                .catch(ex => {
+                    console.log(_("Failed to get config"));
+                    this.log("E: " + ex.message);
+                });
+    }
+
+    log(message) {
+        this.logWindow.current.log(message);
     }
 
     updateStatus() {
@@ -90,13 +140,14 @@ export class Application extends React.Component {
                 })
                 .catch(ex => {
                     console.log(_("Failed to get status"));
+                    this.log("E: " + ex.message);
                 });
     }
 
     showToast(message) {
         const toast = new Notification('CodeReady Containers', {
             body: message,
-            icon: ""
+            icon: "./ocp-logo.png"
         });
     }
 
@@ -113,11 +164,19 @@ export class Application extends React.Component {
                     </CardBody>
                 </Card>
 
-                <Actions onStartClicked={this.startInstance}
-                        onStopClicked={this.stopInstance}
-                        onDeleteClicked={this.deleteInstance} />
+                <div style={{ marginLeft : "22px" }}>
+                    <LogWindow ref={this.logWindow} />
 
-                <Settings onValueChanged={this.settingsValueChanged} />
+                    <Actions ref={this.actions}
+                            onStartClicked={this.startInstance}
+                            onStopClicked={this.stopInstance}
+                            onDeleteClicked={this.deleteInstance} />
+
+                    <Settings ref={this.settings}
+                            onValueChanged={this.settingsValueChanged}
+                            onSaveClicked={this.settingsSave}
+                            onResetClicked={this.settingsReset} />
+                </div>
 
             </div>
         );

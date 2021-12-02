@@ -20,6 +20,7 @@ const production = process.env.NODE_ENV === 'production';
 
 // Non-JS files which are copied verbatim to dist/
 const copy_files = [
+    "./img/ocp-logo.png",
     "./src/index.html",
     "./src/manifest.json",
 ];
