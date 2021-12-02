@@ -59,7 +59,7 @@ export function getConfig() {
 
 export function setConfig(data) {
     return new Promise((resolve, reject) => {
-        crcCall("/api/config", "POST", data)
+        crcCall("/api/config", "POST", JSON.stringify(data))
                 .then(reply => resolve(JSON.parse(reply)))
                 .catch(reject);
     });

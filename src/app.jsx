@@ -98,8 +98,16 @@ export class Application extends React.Component {
     }
 
     settingsSave(data) {
-        console.log(data);
         this.log("Save settings");
+        const values = Object.entries(data).filter(values => values[1] != "");
+        client.setConfig({ properties: Object.fromEntries(values) })
+                .then(reply => {
+                    console.log(reply);
+                })
+                .catch(ex => {
+                    console.log(_("Failed to set config"));
+                    this.log("E: " + ex.message);
+                });
     }
 
     settingsReset() {
@@ -113,12 +121,11 @@ export class Application extends React.Component {
                 .then(reply => {
                     console.log(reply.Configs);
                     this.settings.current.updateValues(reply.Configs);
-                });
-        /*
+                })
                 .catch(ex => {
                     console.log(_("Failed to get config"));
+                    this.log("E: " + ex.message);
                 });
-                */
     }
 
     log(message) {
@@ -133,6 +140,7 @@ export class Application extends React.Component {
                 })
                 .catch(ex => {
                     console.log(_("Failed to get status"));
+                    this.log("E: " + ex.message);
                 });
     }
 
