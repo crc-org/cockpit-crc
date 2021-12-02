@@ -1,5 +1,5 @@
 {
-  "name": "cockpit-crc",
+  "name": "crc",
   "description": "CRC Plugin for Cockpit",
   "main": "index.js",
   "repository": "git@github.com:gbraad/cockpit-crc.git",
