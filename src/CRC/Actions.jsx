@@ -25,7 +25,7 @@ class Actions extends React.Component {
     }
 }
 
-Button.propTypes = {
+Actions.propTypes = {
     onStartClicked: PropTypes.func,
     onStopClicked: PropTypes.func,
     onDeleteClicked: PropTypes.func
