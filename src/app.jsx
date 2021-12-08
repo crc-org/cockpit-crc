@@ -19,8 +19,8 @@
 
 import cockpit from 'cockpit';
 import React from 'react';
-import { Alert, Card, CardTitle, CardBody } from '@patternfly/react-core';
 import * as client from './client.js';
+import Status from './CRC/Status.jsx';
 import Actions from './CRC/Actions.jsx';
 import Settings from './CRC/Settings.jsx';
 import LogWindow from './CRC/LogWindow.jsx';
@@ -31,7 +31,6 @@ export class Application extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            CrcStatus: _("Unknown"),
             log: ""
         };
 
@@ -43,6 +42,7 @@ export class Application extends React.Component {
         this.settingsSave = this.settingsSave.bind(this);
         this.settingsReset = this.settingsReset.bind(this);
 
+        this.status = React.createRef();
         this.actions = React.createRef();
         this.settings = React.createRef();
         this.logWindow = React.createRef();
@@ -135,8 +135,7 @@ export class Application extends React.Component {
     updateStatus() {
         client.getStatus()
                 .then(reply => {
-                    console.log(reply.CrcStatus);
-                    this.setState({ CrcStatus: reply.CrcStatus });
+                    this.status.current.updateStatus(reply);
                 })
                 .catch(ex => {
                     console.log(_("Failed to get status"));
@@ -154,15 +153,7 @@ export class Application extends React.Component {
     render() {
         return (
             <div>
-                <Card>
-                    <CardTitle>CodeReady Containers</CardTitle>
-                    <CardBody>
-                        <Alert
-                            variant="info"
-                            title={cockpit.format(_("Status: $0"), this.state.CrcStatus)}
-                        />
-                    </CardBody>
-                </Card>
+                <Status ref={this.status} />
 
                 <div style={{ marginLeft : "22px" }}>
                     <LogWindow ref={this.logWindow} />
