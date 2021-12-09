@@ -1,7 +1,8 @@
 import React from 'react';
 
 import {
-    Card, CardTitle, CardBody, Progress, ProgressVariant, ProgressMeasureLocation
+    Card, CardTitle, CardBody, CardFooter,
+    Progress, ProgressVariant, ProgressMeasureLocation
 } from '@patternfly/react-core';
 
 class Status extends React.Component {
@@ -23,7 +24,8 @@ class Status extends React.Component {
 
     formatSize(bytes) {
         const i = Math.floor(Math.log(bytes) / Math.log(1024));
-        return (!bytes && '0 Bytes') || (bytes / Math.pow(1024, i)).toFixed(2) + " " + ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'][i];
+        return (!bytes && '0 Bytes') ||
+            (bytes / Math.pow(1024, i)).toFixed(2) + " " + ['Bytes', 'KB', 'MB', 'GB', 'TB'][i];
     }
 
     updateState(key, value) {
@@ -47,7 +49,7 @@ class Status extends React.Component {
                                 </td>
                             </tr>
                             <tr>
-                                <th id="crc-status-openshift" scope="row">OpenShift</th>
+                                <th id="crc-status-openshift" scope="row" style={{ paddingRight : "20px" }}>OpenShift</th>
                                 <td>
                                     {this.state.OpenshiftStatus}
                                 </td>
@@ -59,7 +61,7 @@ class Status extends React.Component {
                                 </td>
                             </tr>
                             <tr>
-                                <th id="crc-status-disksize-progress" scope="row">Disk size</th>
+                                <th id="crc-status-disksize-progress" scope="row">Disk</th>
                                 <td width="200px">
                                     <Progress value={this.state.DiskUse}
                                         className="pf-m-sm"
@@ -73,6 +75,11 @@ class Status extends React.Component {
                         </tbody>
                     </table>
                 </CardBody>
+                <CardFooter>
+                    {
+                        /* <a href="#" onClick={ev => { ev.preventDefault() }}>View details and logs</a> */
+                    }
+                </CardFooter>
             </Card>
         );
     }
