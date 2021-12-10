@@ -20,10 +20,12 @@
 import cockpit from 'cockpit';
 import React from 'react';
 import * as client from './client.js';
-import Status from './CRC/Status.jsx';
-import Actions from './CRC/Actions.jsx';
-import Settings from './CRC/Settings.jsx';
-import LogWindow from './CRC/LogWindow.jsx';
+import {
+    Status,
+    Actions,
+    Settings,
+    LogWindow
+} from '@gbraad/crc-react-components';
 
 const _ = cockpit.gettext;
 
