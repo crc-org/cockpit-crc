@@ -21,6 +21,11 @@ import cockpit from 'cockpit';
 import React from 'react';
 import * as client from './client.js';
 import {
+    Card,
+    Page,
+    PageSection
+} from '@patternfly/react-core';
+import {
     Status,
     Actions,
     Settings,
@@ -154,24 +159,29 @@ export class Application extends React.Component {
 
     render() {
         return (
-            <div>
-                <Status ref={this.status} />
+            <Page>
+                <PageSection>
+                    <Status ref={this.status} />
 
-                <div style={{ marginLeft : "22px" }}>
-                    <LogWindow ref={this.logWindow} />
-
-                    <Actions ref={this.actions}
+                    <Card>
+                        <Actions style={{ margin:"10px" }} ref={this.actions}
                             onStartClicked={this.startInstance}
                             onStopClicked={this.stopInstance}
                             onDeleteClicked={this.deleteInstance} />
-
-                    <Settings ref={this.settings}
-                            onValueChanged={this.settingsValueChanged}
-                            onSaveClicked={this.settingsSave}
-                            onResetClicked={this.settingsReset} />
-                </div>
-
-            </div>
+                    </Card>
+                </PageSection>
+                <PageSection>
+                    <Card>
+                        <LogWindow ref={this.logWindow} />
+                    </Card>
+                    <Card>
+                        <Settings ref={this.settings}
+                                onValueChanged={this.settingsValueChanged}
+                                onSaveClicked={this.settingsSave}
+                                onResetClicked={this.settingsReset} />
+                    </Card>
+                </PageSection>
+            </Page>
         );
     }
 }
