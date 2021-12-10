@@ -26,8 +26,7 @@ import {
     PageSection
 } from '@patternfly/react-core';
 import {
-    Status,
-    Actions,
+    ControlCard,
     Settings,
     LogWindow
 } from '@gbraad/crc-react-components';
@@ -49,8 +48,7 @@ export class Application extends React.Component {
         this.settingsSave = this.settingsSave.bind(this);
         this.settingsReset = this.settingsReset.bind(this);
 
-        this.status = React.createRef();
-        this.actions = React.createRef();
+        this.control = React.createRef();
         this.settings = React.createRef();
         this.logWindow = React.createRef();
     }
@@ -142,7 +140,7 @@ export class Application extends React.Component {
     updateStatus() {
         client.getStatus()
                 .then(reply => {
-                    this.status.current.updateStatus(reply);
+                    this.control.current.updateStatus(reply);
                 })
                 .catch(ex => {
                     console.log(_("Failed to get status"));
@@ -151,7 +149,7 @@ export class Application extends React.Component {
     }
 
     showToast(message) {
-        const toast = new Notification('CodeReady Containers', {
+        const _ = new Notification('CodeReady Containers', {
             body: message,
             icon: "./ocp-logo.png"
         });
@@ -161,14 +159,10 @@ export class Application extends React.Component {
         return (
             <Page>
                 <PageSection>
-                    <Status ref={this.status} />
-
-                    <Card>
-                        <Actions style={{ margin:"10px" }} ref={this.actions}
-                            onStartClicked={this.startInstance}
-                            onStopClicked={this.stopInstance}
-                            onDeleteClicked={this.deleteInstance} />
-                    </Card>
+                    <ControlCard ref={this.control}
+                        onStartClicked={this.startInstance}
+                        onStopClicked={this.stopInstance}
+                        onDeleteClicked={this.deleteInstance} />
                 </PageSection>
                 <PageSection>
                     <Card>
