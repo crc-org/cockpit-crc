@@ -27,9 +27,9 @@ import {
 } from '@patternfly/react-core';
 import {
     ControlCard,
-    Settings,
+    Configuration,
     LogWindow
-} from '@gbraad/crc-react-components';
+} from '@code-ready/crc-react-components';
 
 const _ = cockpit.gettext;
 
@@ -43,18 +43,18 @@ export class Application extends React.Component {
         this.startInstance = this.startInstance.bind(this);
         this.stopInstance = this.stopInstance.bind(this);
         this.deleteInstance = this.deleteInstance.bind(this);
-        this.settingsValueChanged = this.settingsValueChanged.bind(this);
         this.updateStatus = this.updateStatus.bind(this);
-        this.settingsSave = this.settingsSave.bind(this);
-        this.settingsReset = this.settingsReset.bind(this);
+        this.configurationValueChanged = this.configurationValueChanged.bind(this);
+        this.configurationSave = this.configurationSave.bind(this);
+        this.configurationReset = this.configurationReset.bind(this);
 
         this.control = React.createRef();
-        this.settings = React.createRef();
+        this.config = React.createRef();
         this.logWindow = React.createRef();
     }
 
     componentDidMount() {
-        this.settingsLoad();
+        this.configurationLoad();
         setInterval(this.updateStatus, 1000);
     }
 
@@ -97,38 +97,38 @@ export class Application extends React.Component {
                 });
     }
 
-    settingsValueChanged(caller, key, value) {
+    configurationValueChanged(caller, key, value) {
         // perform validation
         caller.updateValue(key, value);
     }
 
-    settingsSave(data) {
-        this.log("Save settings");
+    configurationSave(data) {
+        this.log("Save configuration");
         const values = Object.entries(data).filter(values => values[1] != "");
         client.setConfig({ properties: Object.fromEntries(values) })
                 .then(reply => {
                     console.log(reply);
                 })
                 .catch(ex => {
-                    console.log(_("Failed to set config"));
+                    console.log(_("Failed to set configuration"));
                     this.log("E: " + ex.message);
                 });
     }
 
-    settingsReset() {
-        this.log("Reset settings");
+    configurationReset() {
+        this.log("Reset configuration");
         this.settingsLoad();
     }
 
-    settingsLoad() {
-        this.log("Load settings");
+    configurationLoad() {
+        this.log("Load configuration");
         client.getConfig()
                 .then(reply => {
                     console.log(reply.Configs);
-                    this.settings.current.updateValues(reply.Configs);
+                    this.config.current.updateValues(reply.Configs);
                 })
                 .catch(ex => {
-                    console.log(_("Failed to get config"));
+                    console.log(_("Failed to get configuration"));
                     this.log("E: " + ex.message);
                 });
     }
@@ -169,10 +169,10 @@ export class Application extends React.Component {
                         <LogWindow ref={this.logWindow} />
                     </Card>
                     <Card>
-                        <Settings ref={this.settings}
-                                onValueChanged={this.settingsValueChanged}
-                                onSaveClicked={this.settingsSave}
-                                onResetClicked={this.settingsReset} />
+                        <Configuration ref={this.config}
+                                onValueChanged={this.configurationValueChanged}
+                                onSaveClicked={this.configurationSave}
+                                onResetClicked={this.configurationReset} />
                     </Card>
                 </PageSection>
             </Page>
