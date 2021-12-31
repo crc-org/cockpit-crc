@@ -23,7 +23,9 @@ import * as client from './client.js';
 import {
     Card,
     Page,
-    PageSection
+    PageSection,
+    Text,
+    TextContent
 } from '@patternfly/react-core';
 import {
     ControlCard,
@@ -179,6 +181,9 @@ export class Application extends React.Component {
         return (
             <Page>
                 <PageSection>
+                    <TextContent>
+                        <Text component="h2">Status</Text>
+                    </TextContent>
                     <ControlCard ref={this.control}
                         preset={this.state.preset}
                         onStartClicked={this.startInstance}
@@ -186,10 +191,18 @@ export class Application extends React.Component {
                         onDeleteClicked={this.deleteInstance} />
                 </PageSection>
                 <PageSection>
-                    <Card>
+                    <TextContent>
+                        <Text component="h2">Logs</Text>
+                    </TextContent>
+                    <Card style={{ padding: "20px" }}>
                         <LogWindow ref={this.logWindow} />
                     </Card>
-                    <Card>
+                </PageSection>
+                <PageSection>
+                    <TextContent>
+                        <Text component="h2">Configuration</Text>
+                    </TextContent>
+                    <Card style={{ padding: "20px" }}>
                         <Configuration ref={this.config}
                                 onValueChanged={this.configurationValueChanged}
                                 onSaveClicked={this.configurationSave}
