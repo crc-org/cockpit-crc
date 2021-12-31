@@ -57,7 +57,10 @@ export class Application extends React.Component {
     }
 
     componentDidMount() {
+        this.updateStatus();
+        this.updateLogs();
         this.configurationLoad();
+
         setInterval(this.updateStatus, 1000);
         setInterval(this.updateLogs, 3000);
     }
@@ -65,7 +68,7 @@ export class Application extends React.Component {
     startInstance() {
         client.startInstance()
                 .then((result) => {
-                    this.showToast("CRC instance started");
+                    this.showToast("Instance has been started");
                 })
                 .catch((error) => {
                     const msg = error.message;
@@ -77,11 +80,11 @@ export class Application extends React.Component {
     stopInstance() {
         client.stopInstance()
                 .then((result) => {
-                    this.showToast("CRC instance stopped");
+                    this.showToast("Instance has been stopped");
                 })
                 .catch((error) => {
                     const msg = error.message;
-                    this.showToast(msg);
+                    this.showToast("Error occured during instance stop command.");
                     this.log("E: " + msg);
                 });
     }
@@ -89,11 +92,11 @@ export class Application extends React.Component {
     deleteInstance() {
         client.deleteInstance()
                 .then((result) => {
-                    this.showToast("CRC instance deleted");
+                    this.showToast("Instance has been deleted");
                 })
                 .catch((error) => {
                     const msg = error.message;
-                    this.showToast(msg);
+                    this.showToast("Error occured during instance delete command.");
                     this.log("E: " + msg);
                 });
     }
@@ -107,10 +110,10 @@ export class Application extends React.Component {
         const values = Object.entries(data).filter(values => values[1] != "");
         client.setConfig({ properties: Object.fromEntries(values) })
                 .then(reply => {
-                    console.log("CRC configuration saved");
+                    console.log("Configuration saved");
                 })
                 .catch(ex => {
-                    console.log(_("Failed to set configuration"));
+                    console.log(_("Error occured during configuration save command."));
                     this.log("E: " + ex.message);
                 });
     }
@@ -122,11 +125,11 @@ export class Application extends React.Component {
     configurationLoad() {
         client.getConfig()
                 .then(reply => {
-                    console.log("CRC configuration loaded");
+                    console.log("Configuration loaded");
                     this.config.current.updateValues(reply.Configs);
                 })
                 .catch(ex => {
-                    console.log(_("Failed to get configuration"));
+                    console.log(_("Error occured during configuration load command."));
                     this.log("E: " + ex.message);
                 });
     }
@@ -144,11 +147,11 @@ export class Application extends React.Component {
                             const logLine = reply.Messages[lineIndex];
                             this.log(logLine);
                         }
-                        this.setState({ lastLineRead: lineIndex });
+                        this.setState({ lastLogLineRead: lineIndex });
                     }
                 })
                 .catch(ex => {
-                    console.log(_("Failed to get logs"));
+                    console.log(_("Error occured during log retrieval command."));
                     this.log("E: " + ex.message);
                 });
     }
@@ -160,7 +163,7 @@ export class Application extends React.Component {
                     this.control.current.updateStatus(reply);
                 })
                 .catch(ex => {
-                    console.log(_("Failed to get status"));
+                    console.log(_("Error occured during status command."));
                     this.log("E: " + ex.message);
                 });
     }
