@@ -53,9 +53,9 @@
   "dependencies": {
     "@code-ready/crc-react-components": "https://github.com/code-ready/crc-react-components/releases/download/0.8.5/crc-react-components-0.8.5.tgz",
     "@patternfly/patternfly": "4.164.2",
-    "@patternfly/react-core": "4.168.8",
-    "@patternfly/react-icons": "4.26.4",
-    "@patternfly/react-styles": "4.25.4",
+    "@patternfly/react-core": "4.181.1",
+    "@patternfly/react-icons": "4.32.1",
+    "@patternfly/react-styles": "4.31.1",
     "core-js": "2.6.12",
     "prop-types": "15.7.2",
     "react": "17.0.2",
